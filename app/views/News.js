@@ -67,7 +67,11 @@ var Nav = {
         var previousRoute = navState.routeStack[index - 1];
         return (
           <TouchableOpacity
-            onPress={() => navigator.jumpBack()}
+            onPress={() => {
+              if(navigator.state.presentedIndex > 0) {
+                navigator.jumpBack();
+              }
+            }}
             style={styles.navBarLeftButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               {previousRoute.name}
@@ -83,7 +87,11 @@ var Nav = {
         var nextRoute = ROUTE_STACK[index + 1];
         return (
           <TouchableOpacity
-            onPress={() => navigator.jumpForward()}
+            onPress={() => {
+              if(navigator.state.presentedIndex < ROUTE_STACK.length-1) {
+                navigator.jumpForward();
+              }
+            }}
             style={styles.navBarRightButton}>
             <Text style={[styles.navBarText, styles.navBarButtonText]}>
               {nextRoute.name}
@@ -91,7 +99,6 @@ var Nav = {
           </TouchableOpacity>
         );
     }
-
   },
 
   Title: function(route, navigator, index, navState) {
@@ -113,7 +120,7 @@ export default class News extends React.Component{
   }
   // 监听的回调
   _willFocus(route) {
-    
+
      // if(route.sign !== ROUTE_STACK[0].sign) {
      //  this.setState({
      //    currentRoute: route
@@ -156,22 +163,22 @@ var styles = StyleSheet.create({
       backgroundColor:'#fff',
       borderColor:'#dddddd',
       borderWidth:1,
-      height: (Platform.OS === 'ios')? 64: 50
+      height: (Platform.OS === 'ios')? 64: 48
   },
   navBarButtonText: {
-      color:'#666',
-      fontSize:18,
+      color:'#888',
+      fontSize: (Platform.OS === 'ios')? 18: 17,
       letterSpacing: 1,
   },
   navBarText: {
-    color:'#333',
-    fontSize: 20,
-    marginVertical: 13,
+    fontSize: (Platform.OS === 'ios')? 20: 19,
+    marginVertical: (Platform.OS === 'ios')? 13: 12,
   },
   navBarTitleText: {
-    fontWeight: (Platform.OS === 'ios')? '500': '400',
+    fontWeight: (Platform.OS === 'ios')? '500': '300',
     letterSpacing: 0.8,
-    marginVertical: (Platform.OS === 'ios')? 12: 18,
+    marginTop: (Platform.OS === 'ios')? 12: 20,
+    color: (Platform.OS === 'ios')? '#333': '#666',
   },
   navBarLeftButton: {
     paddingLeft: 5,
